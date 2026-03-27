@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { CheckCircle2, ShoppingBag, ArrowRight } from "lucide-react"
@@ -8,7 +8,7 @@ import { useToast } from "@/components/shared/Toast"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/components/cart/CartContext"
 
-export default function SuccessPage() {
+function SuccessContent() {
     const searchParams = useSearchParams()
     const sessionId = searchParams.get("session_id")
     const { clearCart, isMounted } = useCart()
@@ -70,5 +70,13 @@ export default function SuccessPage() {
                 </Button>
             </div>
         </div>
+    )
+}
+
+export default function SuccessPage() {
+    return (
+        <Suspense fallback={<div className="container mx-auto px-4 py-20 text-center text-muted-foreground">Loading order details...</div>}>
+            <SuccessContent />
+        </Suspense>
     )
 }
