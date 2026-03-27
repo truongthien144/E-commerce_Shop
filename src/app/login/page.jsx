@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 
 import { useCart } from "@/components/cart/CartContext"
 
-export default function LoginPage() {
+function LoginContent() {
     const router = useRouter()
     const { refreshUser } = useCart()
     const searchParams = useSearchParams()
@@ -114,5 +114,13 @@ export default function LoginPage() {
                 </form>
             </Card>
         </div>
+    )
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="container mx-auto flex min-h-[80vh] items-center justify-center py-10 text-muted-foreground">Loading login portal...</div>}>
+            <LoginContent />
+        </Suspense>
     )
 }
